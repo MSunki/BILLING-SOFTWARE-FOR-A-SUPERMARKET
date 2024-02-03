@@ -1,0 +1,122 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+// Main class Supermarket
+class Supermarket
+{
+    public static void main(String[] args)
+    {
+        ArrayList < Product > products = new ArrayList < Product > ();
+        Scanner scanner = new Scanner(System.in);
+        int choice = 0;
+        // Ask user for choice
+        while (choice != 4)
+        {
+            System.out.println();
+            System.out.println("1) Add product");
+            System.out.println("2) Edit product");
+            System.out.println("3) Remove product");
+            System.out.println("4) Calculate total and quit");
+            System.out.print("Enter your choice: ");
+            try {
+                choice = scanner.nextInt();
+                } catch (Exception e) {
+                System.out.print("Enter valid choice ");
+               // choice = 4;
+                break;
+                }
+
+                switch (choice)
+                {
+                    // Add new product
+                    case 1:
+                        System.out.print("Enter product name- ");
+                        String productName = scanner.next();
+                        System.out.print("Enter product price- ");
+                        double productPrice = scanner.nextDouble();
+                        // Call method add to add a new product
+                        products.add(new Product(productName, productPrice));
+                        break;
+                        // Edit product price
+                    case 2:
+                        System.out.print("Enter product name to change- ");
+                        String productNameToEdit = scanner.next();
+                        //loop products to compare with product name
+                        for (Product product: products)
+                        {
+                            if (product.getName().equals(productNameToEdit))
+                            {
+                                System.out.print("Enter new price for " + product.getName() + "-");
+                                double newProductPrice = scanner.nextDouble();
+                                // Call method setPrice to set new price for the product
+                                product.setPrice(newProductPrice);
+                                System.out.print("Product price is updated");
+                                break;
+                            }
+                        }
+
+                        break;
+                        // Enter product name to remove from list
+                    case 3:
+                        System.out.print("Enter product name to remove: ");
+                        String productNameToRemove = scanner.next();
+                        int flag = 0;
+                        for (int i = 0; i < products.size(); i++)
+                        {
+                            if (products.get(i).getName().equals(productNameToRemove))
+                            {
+                                products.remove(i);
+                                flag = 1;
+                                System.out.println("Product has been removed ");
+                                break;
+                            }
+                        }
+                        if (flag == 0) {
+                            System.out.println("No Product found ");
+                        }
+                        break;
+                    case 4:
+                        double total = 0;
+                        System.out.println("Products in cart:");
+                        // Loop to calculate total price of all products
+                        for (Product product: products)
+                        {
+                            System.out.println(product.getName() + " - " + product.getPrice());
+                            System.out.println();
+                            total += product.getPrice();
+                        }
+                        System.out.println("Grand Total: " + total);
+                        break;
+                    default:
+                        System.out.println("error");
+                }
+        }
+    }
+}
+
+// Product class
+class Product {
+    private String name;
+    private double price;
+    //method to set new price to product
+    public Product(String name, double price)
+    {
+        this.name = name;
+        this.price = price;
+    }
+    //method to get name of product
+    public String getName()
+    {
+        return name;
+    }
+    //method to get price of product
+    public double getPrice()
+    {
+
+        return price;
+    }
+    //method to set the price of product
+    public void setPrice(double price)
+    {
+        this.price = price;
+    }
+}
